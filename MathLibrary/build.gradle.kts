@@ -36,8 +36,8 @@ android {
 publishing {
     publications {
         create<MavenPublication>("bar") {
-            groupId = "com.youtube" // Replace with your group ID
-            artifactId = "mathUtils" // Replace with your artifact ID
+            groupId = "com.github.ct-rambabut" // Replace with your group ID
+            artifactId = "LibraryTesting" // Replace with your artifact ID
             version = "1.0.0" // Replace with your version
             artifact("$buildDir/outputs/aar/MathLibrary-release.aar")
 
@@ -48,9 +48,9 @@ publishing {
         maven {
             name = "GithubPackages"
             url = uri("https://maven.pkg.github.com/ct-rambabut/LibraryTesting")
-            credentials{
-                username = System.getenv("GITHUB_USER")
-                password = System.getenv("GITHUB_TOKEN")
+            credentials {
+                username = project.findProperty("gpr.user") as String ?: System.getenv("USERNAME_GITHUB_PACKAGES")
+                password = project.findProperty("gpr.token") as String ?: System.getenv("TOKEN_GITHUB_PACKAGES")
             }
         }
     }
