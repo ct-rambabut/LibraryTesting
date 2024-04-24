@@ -1,11 +1,12 @@
 plugins {
     id("com.android.library")
     id("org.jetbrains.kotlin.android")
+    id("maven-publish")
 }
 
 android {
     namespace = "com.youtube.mathlibrary"
-    compileSdk = 33
+    compileSdk = 34
 
     defaultConfig {
         minSdk = 24
@@ -29,6 +30,29 @@ android {
     }
     kotlinOptions {
         jvmTarget = "1.8"
+    }
+}
+
+publishing {
+    publications {
+        create<MavenPublication>("bar") {
+            groupId = "com.youtube" // Replace with your group ID
+            artifactId = "mathUtils" // Replace with your artifact ID
+            version = "1.0.0" // Replace with your version
+            artifact("$buildDir/outputs/aar/MathLibrary-release.aar")
+
+         }
+    }
+
+    repositories{
+        maven {
+            name = "GithubPackages"
+            url = uri("https://maven.pkg.github.com/ct-rambabut/LibraryTesting")
+            credentials{
+                username = System.getenv("GITHUB_USER")
+                password = System.getenv("GITHUB_TOKEN")
+            }
+        }
     }
 }
 
